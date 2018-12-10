@@ -56,7 +56,13 @@ warnings.filterwarnings('ignore')
 
 
 ```python
-# Code here 
+import networkx as nx
+import numpy as np
+import warnings
+import math
+
+import matplotlib.pyplot as plt
+warnings.filterwarnings('ignore')
 ```
 
 ## Creating a new Graph 
@@ -69,7 +75,7 @@ G = nx.Graph()
 
 
 ```python
-# Code here 
+G = nx.Graph()
 ```
 
 ## Adding nodes
@@ -89,7 +95,11 @@ G.add_node(math.cos)
 
 
 ```python
-# Code here 
+G.add_node(1)
+G.add_node('one')
+G.add_node(3)
+G.add_node('second')
+G.add_node(math.cos)
 ```
 
 ## Viewing nodes
@@ -102,7 +112,7 @@ G.nodes()
 
 
 ```python
-# Code here 
+G.nodes()
 ```
 
 
@@ -126,7 +136,31 @@ G.add_node([1, 2])
 
 ```python
 # Code here 
+G.add_node({'dictionary': 'will throw error'})
+G.add_node([1, 2])
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-5-3efbc6c27b4a> in <module>()
+          1 # Code here
+    ----> 2 G.add_node({'dictionary': 'will throw error'})
+          3 G.add_node([1, 2])
+
+
+    /anaconda3/lib/python3.6/site-packages/networkx/classes/graph.py in add_node(self, node_for_adding, **attr)
+        479         doesn't change on mutables.
+        480         """
+    --> 481         if node_for_adding not in self._node:
+        482             self._adj[node_for_adding] = self.adjlist_inner_dict_factory()
+        483             self._node[node_for_adding] = attr
+
+
+    TypeError: unhashable type: 'dict'
+
 
 We can add elements from a list by using a different method. Let's add some more nodes nodes using `add_nodes_from`. 
 
@@ -140,6 +174,9 @@ G.nodes()
 
 ```python
 # Code here 
+list_of_nodes = [2, 3, 'node4']
+G.add_nodes_from(list_of_nodes)
+G.nodes()
 ```
 
 
@@ -160,6 +197,8 @@ print(H.nodes())
 
 ```python
 # Code here 
+H = nx.path_graph(7)
+print(H.nodes())
 ```
 
     [0, 1, 2, 3, 4, 5, 6]
@@ -176,9 +215,15 @@ print(G.nodes())
 
 ```python
 # Code here 
+G.add_nodes_from(H)
+G.nodes()
 ```
 
-    [1, 'one', 3, 'second', <built-in function cos>, 2, 'node4', 0, 4, 5, 6]
+
+
+
+    NodeView((1, 'one', 3, 'second', <built-in function cos>, 2, 'node4', 0, 4, 5, 6))
+
 
 
 ## Adding Edges
@@ -196,7 +241,15 @@ G.add_edge(0, 'node4')
 
 ```python
 # Code here 
+G.add_edge(0, 'second')
+G.add_edge(2, 3)
+G.add_edge('second', 'node4')
+G.add_edge(0, 'node4')
+print(G.edges())
 ```
+
+    [(3, 2), ('second', 0), ('second', 'node4'), ('node4', 0)]
+
 
 We can also use `add_edges_from()` method to add a list of edges given in an iterable like a list of tuples describing nodes to be connected through edges. This is how you would do it. 
 
@@ -210,7 +263,17 @@ G.add_edges_from(list_of_edges)
 
 ```python
 # Code here 
+list_of_edges = [(2, 3), (4, 5), ('node4', 2)]
+G.add_edges_from(list_of_edges)
+G.edges()
 ```
+
+
+
+
+    EdgeView([(3, 2), ('second', 0), ('second', 'node4'), (2, 'node4'), ('node4', 0), (4, 5)])
+
+
 
 ## Viewing Edges
 
@@ -224,9 +287,14 @@ print(G.edges())
 
 ```python
 # Code here 
+G.edges()
 ```
 
-    [(3, 2), ('second', 0), ('second', 'node4'), (2, 'node4'), ('node4', 0), (4, 5)]
+
+
+
+    EdgeView([(3, 2), ('second', 0), ('second', 'node4'), (2, 'node4'), ('node4', 0), (4, 5)])
+
 
 
 ## Inspecting number of Edges and Nodes
@@ -243,7 +311,9 @@ print(G.number_of_edges(), len(G.edges()))
 
 
 ```python
-# Code here 
+# Code here
+print(G.number_of_nodes(), len(G), len(G.nodes()))
+print(G.number_of_edges(), len(G.edges()))
 ```
 
     11 11 11
@@ -262,6 +332,7 @@ nx.draw(G)
 
 ```python
 # Code here 
+nx.draw(G)
 ```
 
 
@@ -278,6 +349,7 @@ nx.draw(G, with_labels = True )
 
 ```python
 # Code here 
+nx.draw(G, with_labels=True)
 ```
 
 
@@ -298,6 +370,9 @@ print(G.nodes())
 
 ```python
 # Code here 
+print(G.nodes)
+G.remove_node(0)
+print(G.nodes())
 ```
 
     [1, 'one', 3, 'second', <built-in function cos>, 2, 'node4', 0, 4, 5, 6]
@@ -314,6 +389,9 @@ print(G.edges())
 
 ```python
 # Code here 
+print(G.edges())
+G.remove_edge('second', 'node4')
+print(G.edges())
 ```
 
     [(3, 2), ('second', 'node4'), (2, 'node4'), (4, 5)]
@@ -333,8 +411,12 @@ print(G.nodes(), G.edges())
 
 ```python
 # Code here 
+print(G.nodes(), G.edges())
+G.clear()
+print(G.nodes(), G.edges())
 ```
 
+    [1, 'one', 3, 'second', <built-in function cos>, 2, 'node4', 4, 5, 6] [(3, 2), (2, 'node4'), (4, 5)]
     [] []
 
 
@@ -345,17 +427,14 @@ Below is another example of creating a graph and manipulating its components, ju
 
 ```python
 # Code here 
+G.degree()
 ```
 
-    [0, 1, 2, 3, 4, 'spam', 's', 'p', 'a', 'm']
-    number of edges in the graph: 4
-    edges in the graph: [(0, 1), (1, 2), (2, 3), (3, 4)]
-    degree counts per node: [(0, 1), (1, 2), (2, 2), (3, 2), (4, 1), ('spam', 0), ('s', 0), ('p', 0), ('a', 0), ('m', 0)]
-    degree counts for node 2: 2
 
 
 
-![png](index_files/index_39_1.png)
+    DegreeView({})
+
 
 
 ## Erdos-Reyni Graph Generator
@@ -391,6 +470,10 @@ nx.draw(G, with_labels=True)
 
 ```python
 # Code here 
+G = nx.erdos_renyi_graph(10, 0.5, seed=1)
+print(G.nodes())
+print(G.edges())
+nx.draw(G, with_labels=True)
 ```
 
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -423,6 +506,18 @@ nx.draw(G,labels=nx.get_node_attributes(G,'name'),node_size=5000)
 
 ```python
 # Code here 
+G.node[0]['name'] = 'pizza'
+G.node[1]['name'] = 'mac and cheese'
+G.node[2]['name'] = 'balogna sandwich'
+G.node[3]['name'] = 'pizza'
+G.node[4]['name'] = 'bananas'
+G.node[5]['name'] = 'ice crem'
+G.node[6]['name'] = 'currys'
+G.node[7]['name'] = 'sushi'
+G.node[8]['name'] = 'egg sandwich'
+G.node[9]['name'] = 'apples'
+nx.get_node_attributes(G,'name')
+nx.draw(G,labels=nx.get_node_attributes(G,'name'),node_size=5000)
 ```
 
 
@@ -443,7 +538,11 @@ print(G.nodes('price'))
 
 ```python
 # Code here 
-
+prices = [3,5,2,7,5,6,2,4,9,12]
+for i in range(10):
+    G.node[i]['price'] = prices[i]
+print(G.nodes('name'))
+print(G.nodes('price'))
 ```
 
     [(0, 'pizza'), (1, 'mac and cheese'), (2, 'balogna sandwich'), (3, 'pizza'), (4, 'bananas'), (5, 'ice crem'), (6, 'currys'), (7, 'sushi'), (8, 'egg sandwich'), (9, 'apples')]
@@ -468,6 +567,11 @@ print(G[1][2]['weight'])
 
 ```python
 # Code here 
+G.add_edge(1, 5, weight=4.7)
+G[1][2]['weight'] = 5.6
+
+print(G[1][5]['weight'])
+print(G[1][2]['weight'])
 ```
 
     4.7
@@ -489,6 +593,13 @@ print(G[1][2]) # All edge attributes
 
 ```python
 # Code here 
+G.add_edges_from([(3, 4), (4, 5)], color='red')
+G.add_edges_from([(1, 2, {'color': 'blue'}), (2, 3, {'weight': 8})])
+print(G[2][3]['weight'])
+print(G[3][4]['color'])
+print(G[4][5]['color'])
+print(G[1][2]['color'])
+print(G[1][2]) # All edge attributes
 ```
 
     8
@@ -520,6 +631,17 @@ plt.show()
 
 ```python
 # Code here 
+pos = nx.spring_layout(G)
+
+nx.draw(G, pos, node_size=1000, font_size=30, node_color='purple', alpha=0.5)
+
+node_labels = nx.get_node_attributes(G,'name')
+nx.draw_networkx_labels(G, pos, labels = node_labels)
+
+edge_labels = nx.get_edge_attributes(G,'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_labels)
+# plt.savefig('this.png')
+plt.show()
 ```
 
 
@@ -529,3 +651,208 @@ plt.show()
 ## Summary 
 
 In this code along, we looked at some basic graph definitions in networkx. We looked at number of different ways to add nodes and edges to a graph. We also looked at setting up different attributes for nodes and edges and visualizing the graph with customized options. We can now move on to seeing how we can apply different analytical techniques to our graphs. 
+
+# What is a graph?
+* A collection of nodes that are connected by edges
+
+## Complete Graph
+* A graph G, is complete iff (==) for every node n in G, there exists an edge connecting n to every other node in G.
+
+
+## $C_4$
+* let's say we can color edges blue or red
+* how any different ways can this graph be colored?
+    * 6 edges
+    * 2 colors
+    * 2x2x2x2x2x2 = 2^6
+    * 64 different colorings
+
+# Why do we need this?
+* Markov Chain
+    * They're a bit outdated and we use a lot of RNN
+    * Analyze and write text
+
+
+```python
+# I think that's it
+```
+
+
+```python
+import markovify
+```
+
+
+```python
+text = """
+[Hook: Kanye West]
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+
+[Verse 1: Kanye West]
+Man, man, man
+If my manager insults me again I will be assaulting him
+After I fuck the manager up then I'm gonna shorten the register up
+Let's go back, back to the Gap
+Look at my check, wasn't no scratch
+So if I stole, wasn't my fault
+Yeah I stole, never got caught
+They take me to the back and pat me
+Askin' me about some khakis
+But let some black people walk in
+I bet they show off their token blackie
+Oh now they love Kanye, let's put him all in the front of the store
+Saw him on break next to the 'No Smoking' sign with a blunt and a Mall'
+Takin' my hits, writin' my hits
+Writin' my rhymes, playin' my mind
+This fuckin' job can't help him
+So I quit, y'all welcome
+Y'all don't know my struggle
+Y'all can't match my hustle
+You can't catch my hustle
+You can't fathom my love dude
+Lock yourself in a room doin' five beats a day for three summers
+That's a different world like Kree Summers
+I deserve to do these numbers
+The kid that made that deserves that Maybach
+So many records in my basement
+I'm just waitin' on my spaceship, blaow
+
+[Hook: Kanye West]
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+
+[Verse 2: GLC]
+Man, I'm talkin' way past the sky
+Let's go, yeah
+And I didn't even try to work a job
+Represent the mob
+At the same time thirsty on the grind
+Chi state of mind
+Lost my momma, lost my mind
++My life, my love+ that's not mine
+Why you ain't signed?
+Wasn't my time
+Leave me alone, work for y'all
+Half of it's yours, half of it's mine
+Only one to ball
+Never one to fall
+Gotta get mine
+Gotta take mine
+Got a tech nine
+Reach my prime
+Gotta make these haters respect mine
+In the mall 'til 12 when my schedule said nine
+Puttin' them pants on shelves
+Waitin' paitently I ask myself
+Where I wanna go, where I wanna be
+Life is much more than runnin' in the streets
+Holla at 'ye, hit me with the beat
+Put me on my feet
+Sound so sweet
+Yes I'm the same ol' G, same goatee
+Stayin' low key, nope
+Holler at God "Man why'd you had to take my folks?"
+Hope to see Freddy G., Yusef G
+Love my G, Rolly G
+Police watch me smoke my weed, count my G's
+Got a lot of people countin' on me
+And I'm just tryin' to find my peace
+Should of finished school like my niece
+Then I wouldn't finally wouldn't use my piece, blaow
+Aw man, all this pressure
+
+[Hook: Kanye West]
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+
+[Verse 3: Consequence]
+I remember havin' to take the dollar cab
+Comin' home real late at night
+Standin' on my feet all damn day
+Tryin' to make this thing right
+And havin' one of my co-workers say "Yo you look just like
+This kid I seen in the old Busta Rhymes video the other night"
+Well easy come, easy go
+How that sayin' goes
+No more broad service, cars, and them TV shows
+I all had that snatched from me
+And all the faculties all turn their back on me
+And didn't wanna hear a rap from me
+So naturally actually had to face things factually
+Had to be a catastrophe with the fridgest starin' back at me
+Cuz nothing's there, nothing's fair
+I don't wanna ever go back there
+So I won't be takin' no days off 'til my spaceship takes off
+
+[Hook: Kanye West]
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+I've been workin' this graveshift and I ain't made shit
+I wish I could buy me a spaceship and fly past the sky
+
+[Outro: GLC]
+I wanna fly, I wanna fly
+I said I want my chariot to pick me up
+And take me brother for a ride"""
+```
+
+
+```python
+lines = text.split('\n')
+lines = [line for line in lines if lines!='']
+len(lines)
+```
+
+
+
+
+    117
+
+
+
+
+```python
+m = markovify.NewlineText(lines)
+```
+
+
+```python
+for i in range(10):
+    print(m.make_sentence_with_start("I"))
+```
+
+    None
+    None
+    None
+    None
+    None
+    None
+    None
+    I wanna fly, I wanna go, where I wanna fly
+    None
+    I wanna go, where I wanna fly, I wanna be
+
+
+
+```python
+3**27
+```
+
+
+
+
+    7625597484987
+
+
+
+
+```python
+3**7625597484987
+```
