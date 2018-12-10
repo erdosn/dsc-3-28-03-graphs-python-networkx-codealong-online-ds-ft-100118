@@ -856,3 +856,38 @@ for i in range(10):
 ```python
 3**7625597484987
 ```
+
+
+```python
+
+```
+
+    [NbConvertApp] Converting notebook index.ipynb to markdown
+    [NbConvertApp] Support files will be in index_files/
+    [NbConvertApp] Making directory index_files
+    [NbConvertApp] Making directory index_files
+    [NbConvertApp] Making directory index_files
+    [NbConvertApp] Making directory index_files
+    [NbConvertApp] Making directory index_files
+    [NbConvertApp] Writing 23227 bytes to index.md
+
+
+
+```python
+
+```
+
+    [master 57fa48d] finished lab
+     7 files changed, 1669 insertions(+), 933 deletions(-)
+     rewrite index.ipynb (85%)
+     rewrite index_files/index_28_0.png (98%)
+     rewrite index_files/index_30_0.png (99%)
+     rewrite index_files/index_41_1.png (99%)
+     rewrite index_files/index_44_0.png (99%)
+     rewrite index_files/index_53_0.png (99%)
+    On branch master
+    Your branch is ahead of 'origin/master' by 1 commit.
+      (use "git push" to publish your local commits)
+    
+    nothing to commit, working tree clean
+
